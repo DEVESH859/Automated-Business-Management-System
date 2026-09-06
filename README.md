@@ -77,6 +77,26 @@ After seeding the database, you can login with:
 - **Email**: admin@business.com
 - **Password**: admin123
 
+## Deploying on Vercel
+
+The repository is configured to deploy the React frontend and Express API together
+as one Vercel project.
+
+1. Import the repository in Vercel and leave **Root Directory** empty (repository root).
+2. Add these Production environment variables:
+   - `MONGODB_URI`: a MongoDB Atlas connection string
+   - `JWT_SECRET`: a long random value used to sign login sessions
+   - `CORS_ORIGIN`: optional when frontend and API use the same Vercel domain
+3. In MongoDB Atlas, allow connections from the deployed application. For a quick
+   test this can be `0.0.0.0/0`; for production, use the narrowest access possible.
+4. Deploy and verify `https://YOUR_DOMAIN/api/health` returns:
+   `{"status":"ok","database":"connected"}`.
+5. If visitors are redirected to a Vercel sign-in page, turn off Vercel Authentication
+   for the Production environment under **Project Settings → Deployment Protection**.
+
+`VITE_API_URL` is not needed for the recommended single-project deployment. Set it
+only when the API is hosted on a separate domain.
+
 ## Project Structure
 
 ```

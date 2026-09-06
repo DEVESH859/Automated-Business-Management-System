@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { LayoutDashboard, Eye, EyeOff, Shield, Users, UserCheck, ArrowLeft, UserPlus, LogIn } from 'lucide-react'
 import { useAuthStore } from '../stores/authStore'
-import { api } from '../services/api'
+import { api, getApiErrorMessage } from '../services/api'
 
 const ROLES = [
   {
@@ -103,7 +103,7 @@ export default function Login() {
         setMode('signin')
       }
     } catch (err) {
-      setError(err.response?.data?.msg || 'Registration failed')
+      setError(getApiErrorMessage(err, 'Registration failed'))
     }
     setLoading(false)
   }

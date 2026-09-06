@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { api } from '../services/api'
+import { api, getApiErrorMessage } from '../services/api'
 
 export const useAuthStore = create((set) => ({
   user: null,
@@ -13,7 +13,7 @@ export const useAuthStore = create((set) => ({
       set({ user: employee, token, isAuthenticated: true })
       return { success: true }
     } catch (error) {
-      return { success: false, error: error.response?.data?.msg || 'Login failed' }
+      return { success: false, error: getApiErrorMessage(error, 'Login failed') }
     }
   },
   logout: () => {

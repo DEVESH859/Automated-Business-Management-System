@@ -2,13 +2,24 @@
   "name": "business-management-system",
   "version": "1.0.0",
   "description": "Automated Business Management System",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
   "scripts": {
-    "server": "cd server && node server.js",
-    "client": "cd client && npm run dev",
+    "build": "npm run build --workspace=client",
+    "server": "npm run start --workspace=server",
+    "client": "npm run dev --workspace=client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "install:all": "npm install && cd server && npm install && cd ../client && npm install"
+    "start": "npm run server",
+    "install:all": "npm install",
+    "test": "node --test server/tests/*.test.js"
   },
   "dependencies": {
     "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

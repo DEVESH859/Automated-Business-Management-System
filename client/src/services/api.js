@@ -1,8 +1,14 @@
 import axios from 'axios'
 
-const baseURL = import.meta.env.VITE_API_URL
-  ? `${import.meta.env.VITE_API_URL}/api`
-  : '/api'
+const configuredApiUrl = import.meta.env.VITE_API_URL?.replace(/\/$/, '')
+const baseURL = configuredApiUrl ? `${configuredApiUrl}/api` : '/api'
+
+const getApiErrorMessage = (error, fallback) => {
+  if (!error.response) {
+    return 'Cannot reach the server. Please try again in a moment.'
+  }
+  return error.response.data?.msg || error.response.data?.error || fallback
+}
 
 export const api = axios.create({
   baseURL,
@@ -37,6 +43,8 @@ export const formatCurrency = (amount) => {
     maximumFractionDigits: 0
   }).format(amount).replace('₹', 'Rs. ')
 }
+
+export { getApiErrorMessage }
 
 export const formatNumber = (num) => {
   return new Intl.NumberFormat('en-US').format(num)
